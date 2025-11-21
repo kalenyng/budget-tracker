@@ -1,0 +1,11 @@
+PWA Icons Required
+
+Please create the following icon files:
+- pwa-192x192.png (192x192 pixels)
+- pwa-512x512.png (512x512 pixels)
+- apple-touch-icon.png (180x180 pixels)
+- favicon.ico (32x32 pixels)
+
+These can be created using any image editor or online icon generator.
+The icons should represent a budget/finance theme with the primary color #8b5cf6.
+
