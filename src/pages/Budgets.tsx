@@ -7,20 +7,6 @@ import { getTotalBudget } from '@/utils/calculations';
 import { getCurrentMonthKey } from '@/utils/storage';
 import { Plus, X } from 'lucide-react';
 
-const categories = [
-  { value: 'groceries', label: 'Groceries' },
-  { value: 'petrol', label: 'Petrol' },
-  { value: 'eatingOut', label: 'Eating Out' },
-  { value: 'entertainment', label: 'Entertainment' },
-  { value: 'random', label: 'Random/Other' },
-  { value: 'rent', label: 'Rent' },
-  { value: 'electricity', label: 'Electricity' },
-  { value: 'water', label: 'Water' },
-  { value: 'medicalAid', label: 'Medical Aid' },
-  { value: 'gym', label: 'Gym' },
-  { value: 'internet', label: 'Internet' },
-];
-
 export function Budgets() {
   const {
     currentMonthKey,
@@ -37,23 +23,9 @@ export function Budgets() {
   const [editingCategory, setEditingCategory] = useState<string | null>(null);
   const [editingAmount, setEditingAmount] = useState('');
   const [showAddCategory, setShowAddCategory] = useState(false);
-  const [newCategory, setNewCategory] = useState('groceries');
+  const [newCategoryName, setNewCategoryName] = useState('');
   const [newAmount, setNewAmount] = useState('');
   const [availableMonths, setAvailableMonths] = useState<string[]>([]);
-
-  // Get available categories (not already in budget)
-  const availableCategories = categories.filter(
-    (cat) => !monthData?.budgets[cat.value]
-  );
-
-  // Update newCategory when showAddCategory changes or available categories change
-  useEffect(() => {
-    if (showAddCategory && availableCategories.length > 0) {
-      // Prefer 'petrol' if available, otherwise use first available category
-      const petrolCategory = availableCategories.find((cat) => cat.value === 'petrol');
-      setNewCategory(petrolCategory ? 'petrol' : availableCategories[0].value);
-    }
-  }, [showAddCategory, monthData?.budgets]);
 
   // Update available months when data changes
   useEffect(() => {
@@ -67,17 +39,17 @@ export function Budgets() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-gray-400">Loading...</div>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+        <div className="text-gray-400 dark:text-gray-500">Loading...</div>
       </div>
     );
   }
 
   if (!monthData) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
-          <p className="text-gray-400 mb-4">No budget data found</p>
+          <p className="text-gray-400 dark:text-gray-500 mb-4">No budget data found</p>
         </div>
       </div>
     );
@@ -92,10 +64,19 @@ export function Budgets() {
 
   const handleAddCategory = () => {
     const amount = parseFloat(newAmount);
-    if (!isNaN(amount) && amount > 0 && availableCategories.some((cat) => cat.value === newCategory)) {
-      updateBudget(newCategory, amount);
+    const categoryName = newCategoryName.trim();
+    
+    if (!isNaN(amount) && amount > 0 && categoryName.length > 0) {
+      // Check if category already exists
+      if (monthData?.budgets[categoryName]) {
+        return;
+      }
+      
+      updateBudget(categoryName, amount);
       setShowAddCategory(false);
+      setNewCategoryName('');
       setNewAmount('');
+      // reload() is already called in updateBudget, but we call it again to ensure immediate update
       reload();
     }
   };
@@ -123,13 +104,13 @@ export function Budgets() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gray-50 pb-24"
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24"
     >
       <div className="p-4 space-y-4">
         {/* Header */}
         <div className="pt-4">
-          <h1 className="text-3xl font-bold text-gray-900">Monthly Budgets</h1>
-          <p className="text-gray-500 mt-1">Set your budget for each category</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">Monthly Budgets</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">Set your budget for each category</p>
         </div>
 
         {/* Month Selector */}
@@ -143,24 +124,24 @@ export function Budgets() {
         {availableMonths.length > 1 && availableMonths.indexOf(currentMonthKey) < availableMonths.length - 1 && (
           <button
             onClick={handleCopyFromPrevious}
-            className="w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 rounded-xl text-gray-700 font-medium transition-colors"
+            className="w-full py-3 px-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl text-gray-700 dark:text-gray-300 font-medium transition-colors"
           >
             Copy budgets from previous month
           </button>
         )}
 
         {/* Total Budget Summary */}
-        <div className="glass rounded-2xl p-6 shadow-lg shadow-black/5 border border-gray-100">
+        <div className="glass rounded-2xl p-6 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700">
           <div className="flex items-center justify-between">
-            <span className="text-gray-600 font-semibold">Total Monthly Budget</span>
-            <span className="text-2xl font-bold text-gray-900">{formatZAR(totalBudget)}</span>
+            <span className="text-gray-600 dark:text-gray-400 font-semibold">Total Monthly Budget</span>
+            <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">{formatZAR(totalBudget)}</span>
           </div>
         </div>
 
         {/* Budget List */}
         <div>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-gray-900">Categories</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">Categories</h2>
             {!showAddCategory && (
               <button
                 onClick={() => setShowAddCategory(true)}
@@ -178,31 +159,29 @@ export function Budgets() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100"
+                className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700"
               >
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Category
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Category Name
                     </label>
-                    <select
-                      value={newCategory}
-                      onChange={(e) => setNewCategory(e.target.value)}
-                      className="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
-                    >
-                      {availableCategories.length === 0 ? (
-                        <option value="">All categories already added</option>
-                      ) : (
-                        availableCategories.map((cat) => (
-                          <option key={cat.value} value={cat.value}>
-                            {cat.label}
-                          </option>
-                        ))
-                      )}
-                    </select>
+                    <input
+                      type="text"
+                      value={newCategoryName}
+                      onChange={(e) => setNewCategoryName(e.target.value)}
+                      placeholder="e.g., Groceries, Rent, Entertainment"
+                      className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"
+                      autoFocus
+                    />
+                    {newCategoryName.trim() && monthData?.budgets[newCategoryName.trim()] && (
+                      <p className="text-xs text-red-500 dark:text-red-400 mt-1">
+                        This category already exists
+                      </p>
+                    )}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Budget Amount (ZAR)
                     </label>
                     <input
@@ -212,8 +191,7 @@ export function Budgets() {
                       value={newAmount}
                       onChange={(e) => setNewAmount(e.target.value)}
                       placeholder="0.00"
-                      className="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
-                      autoFocus
+                      className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   </div>
                   <div className="flex gap-2">
@@ -221,16 +199,17 @@ export function Budgets() {
                       type="button"
                       onClick={() => {
                         setShowAddCategory(false);
+                        setNewCategoryName('');
                         setNewAmount('');
                       }}
-                      className="flex-1 py-2 border border-gray-300 rounded-xl font-medium text-gray-700"
+                      className="flex-1 py-2 border border-gray-300 dark:border-gray-600 rounded-xl font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       type="button"
                       onClick={handleAddCategory}
-                      disabled={availableCategories.length === 0}
+                      disabled={!newCategoryName.trim() || !newAmount || parseFloat(newAmount) <= 0 || (monthData?.budgets[newCategoryName.trim()] !== undefined)}
                       className="flex-1 py-2 bg-primary text-white rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       Add
@@ -242,15 +221,14 @@ export function Budgets() {
 
             {/* Budget Items */}
             {budgetEntries.length === 0 ? (
-              <div className="glass rounded-2xl p-8 shadow-lg shadow-black/5 border border-gray-100 text-center">
-                <p className="text-gray-400 mb-2">No budgets set yet</p>
-                <p className="text-sm text-gray-500">
+              <div className="glass rounded-2xl p-8 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700 text-center">
+                <p className="text-gray-400 dark:text-gray-500 mb-2">No budgets set yet</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
                   Click "Add" to set up your first budget category
                 </p>
               </div>
             ) : (
               budgetEntries.map(([category, amount]) => {
-                const categoryLabel = categories.find((c) => c.value === category)?.label || category;
                 const isEditing = editingCategory === category;
 
                 return (
@@ -258,24 +236,24 @@ export function Budgets() {
                     key={category}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100"
+                    className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700"
                   >
                     {isEditing ? (
                       <div className="space-y-3">
                         <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-semibold text-gray-900">{categoryLabel}</h3>
+                          <h3 className="font-semibold text-gray-900 dark:text-gray-100">{category}</h3>
                           <button
                             onClick={() => {
                               setEditingCategory(null);
                               setEditingAmount('');
                             }}
-                            className="p-1 text-gray-400 hover:text-gray-600"
+                            className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300"
                           >
                             <X className="w-5 h-5" />
                           </button>
                         </div>
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Budget Amount (ZAR)
                           </label>
                           <input
@@ -284,7 +262,7 @@ export function Budgets() {
                             min="0"
                             value={editingAmount}
                             onChange={(e) => setEditingAmount(e.target.value)}
-                            className="w-full px-3 py-2 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                            className="w-full px-3 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"
                             autoFocus
                           />
                         </div>
@@ -292,7 +270,7 @@ export function Budgets() {
                           <button
                             type="button"
                             onClick={() => handleDeleteBudget(category)}
-                            className="flex-1 py-2 border border-red-300 text-red-600 rounded-xl font-medium hover:bg-red-50"
+                            className="flex-1 py-2 border border-red-300 dark:border-red-700 text-red-600 dark:text-red-400 rounded-xl font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                           >
                             Delete
                           </button>
@@ -313,11 +291,11 @@ export function Budgets() {
                     ) : (
                       <div className="flex items-center justify-between">
                         <div>
-                          <h3 className="font-semibold text-gray-900">{categoryLabel}</h3>
-                          <p className="text-sm text-gray-500">Monthly budget</p>
+                          <h3 className="font-semibold text-gray-900 dark:text-gray-100">{category}</h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400">Monthly budget</p>
                         </div>
                         <div className="flex items-center gap-3">
-                          <span className="text-lg font-bold text-gray-900">
+                          <span className="text-lg font-bold text-gray-900 dark:text-gray-100">
                             {formatZAR(amount)}
                           </span>
                           <button
@@ -325,7 +303,7 @@ export function Budgets() {
                               setEditingCategory(category);
                               setEditingAmount(amount.toString());
                             }}
-                            className="px-4 py-2 text-primary font-medium hover:bg-primary/10 rounded-lg transition-colors"
+                            className="px-4 py-2 text-primary font-medium hover:bg-primary/10 dark:hover:bg-primary/20 rounded-lg transition-colors"
                           >
                             Edit
                           </button>

@@ -138,10 +138,33 @@ budgetTracker/
 - Run `npm install` to ensure all dependencies are installed
 - Check that Node.js version is 18+
 
+## Environment Variables
+
+Create a `.env` file in the project root with the following variables:
+
+```env
+# Supabase (required for authentication)
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+
+# OpenRouter API (optional, for CSV import AI categorization)
+VITE_OPENROUTER_API_KEY=your-openrouter-api-key
+```
+
+### OpenRouter API Setup
+
+1. Sign up at [OpenRouter](https://openrouter.ai/)
+2. Generate an API key from your dashboard
+3. Add it to your `.env` file as `VITE_OPENROUTER_API_KEY`
+4. The free tier includes 50 requests per day
+
+**Note**: CSV/PDF import will work without the API key, but AI extraction (for PDFs) and categorization will be disabled. You can manually categorize transactions in the review screen. PDF parsing will fall back to pattern matching if AI is unavailable.
+
 ## Next Steps
 
 1. Create PWA icons
 2. Customize theme colors if needed
 3. Add Supabase integration (optional) for cloud sync
-4. Deploy to hosting service (Vercel, Netlify, etc.)
+4. Add OpenRouter API key for CSV import AI categorization (optional)
+5. Deploy to hosting service (Vercel, Netlify, etc.)
 

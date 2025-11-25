@@ -21,7 +21,8 @@
     "clsx": "^2.0.0",
     "tailwind-merge": "^2.1.0",
     "idb": "^8.0.0",
-    "@supabase/supabase-js": "^2.38.5"
+    "@supabase/supabase-js": "^2.38.5",
+    "pdfjs-dist": "^4.0.379"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

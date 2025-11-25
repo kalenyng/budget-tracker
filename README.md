@@ -8,8 +8,11 @@ A modern, mobile-first Progressive Web App for tracking your monthly budget in Z
 - 💰 **ZAR Currency Only** - All amounts in South African Rand
 - 📊 **Budget Tracking** - Track fixed and variable monthly expenses
 - 📈 **Visual Analytics** - Charts and breakdowns of your spending
+- 📥 **CSV Import** - Upload bank statements and auto-categorize with AI
+- 🤖 **AI Categorization** - Automatic transaction categorization using OpenRouter
 - 💾 **Offline Support** - Works offline with IndexedDB storage
 - 🎨 **Modern UI** - Clean, fintech-style interface with glassmorphism effects
+- 🌙 **Dark Mode** - Full dark mode support
 - ⚡ **PWA Ready** - Installable on Android and iOS
 
 ## Getting Started
@@ -77,6 +80,15 @@ src/
 - Uses IndexedDB for offline storage
 - Automatic data persistence
 - Export/import functionality
+
+### CSV/PDF Import
+
+- Upload bank statement CSV or PDF files
+- Automatic AI-powered extraction and categorization (requires OpenRouter API key)
+- PDF text extraction with fallback pattern matching
+- Review and edit categories before importing
+- Bulk category editing
+- Search and filter transactions
 
 ## Technologies
 

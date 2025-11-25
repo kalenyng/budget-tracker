@@ -37,14 +37,14 @@ export function MonthSelector({ currentMonthKey, availableMonths, onMonthChange 
 
   return (
     <div className="relative">
-      <div className="flex items-center justify-between glass rounded-2xl p-3 shadow-lg shadow-black/5 border border-gray-100">
+      <div className="flex items-center justify-between glass rounded-2xl p-3 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700">
         <button
           onClick={goToPrevious}
           disabled={!hasPrevious}
           className={`p-2 rounded-lg transition-colors ${
             hasPrevious
-              ? 'text-gray-700 hover:bg-gray-100'
-              : 'text-gray-300 cursor-not-allowed'
+              ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+              : 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
           }`}
         >
           <ChevronLeft className="w-5 h-5" />
@@ -52,10 +52,10 @@ export function MonthSelector({ currentMonthKey, availableMonths, onMonthChange 
 
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex-1 mx-4 flex items-center justify-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+          className="flex-1 mx-4 flex items-center justify-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         >
-          <Calendar className="w-4 h-4 text-gray-500" />
-          <span className="font-semibold text-gray-900">
+          <Calendar className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+          <span className="font-semibold text-gray-900 dark:text-gray-100">
             {formatMonthKey(currentMonthKey)}
           </span>
         </button>
@@ -65,8 +65,8 @@ export function MonthSelector({ currentMonthKey, availableMonths, onMonthChange 
           disabled={!hasNext}
           className={`p-2 rounded-lg transition-colors ${
             hasNext
-              ? 'text-gray-700 hover:bg-gray-100'
-              : 'text-gray-300 cursor-not-allowed'
+              ? 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+              : 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
           }`}
         >
           <ChevronRight className="w-5 h-5" />
@@ -81,16 +81,16 @@ export function MonthSelector({ currentMonthKey, availableMonths, onMonthChange 
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/50 dark:bg-black/70 backdrop-blur-sm z-40"
             />
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-lg shadow-black/10 border border-gray-100 z-50 max-h-64 overflow-y-auto"
+              className="absolute top-full left-0 right-0 mt-2 glass rounded-2xl shadow-lg shadow-black/10 border border-gray-100 dark:border-gray-700 z-50 max-h-64 overflow-y-auto"
             >
               {availableMonths.length === 0 ? (
-                <div className="p-4 text-center text-gray-500 text-sm">
+                <div className="p-4 text-center text-gray-500 dark:text-gray-400 text-sm">
                   No months available
                 </div>
               ) : (
@@ -101,8 +101,8 @@ export function MonthSelector({ currentMonthKey, availableMonths, onMonthChange 
                       onClick={() => handleMonthSelect(monthKey)}
                       className={`w-full text-left px-4 py-3 rounded-lg transition-colors ${
                         monthKey === currentMonthKey
-                          ? 'bg-primary/10 text-primary font-semibold'
-                          : 'text-gray-700 hover:bg-gray-100'
+                          ? 'bg-primary/10 dark:bg-primary/20 text-primary font-semibold'
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
                       {formatMonthKey(monthKey)}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { useBudget } from '@/contexts/BudgetContext';
 import { formatZAR } from '@/utils/budgetCalculations';
@@ -8,13 +8,9 @@ import { useNavigate } from 'react-router-dom';
 
 export function History() {
   const { getAllMonthKeys, getMonthData, switchMonth } = useBudget();
-  const [monthKeys, setMonthKeys] = useState<string[]>([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const months = getAllMonthKeys();
-    setMonthKeys(months);
-  }, [getAllMonthKeys]);
+  const monthKeys = useMemo(() => getAllMonthKeys(), [getAllMonthKeys]);
 
   const handleMonthClick = (monthKey: string) => {
     switchMonth(monthKey);
@@ -26,18 +22,18 @@ export function History() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="min-h-screen bg-gray-50 pb-24"
+        className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24"
       >
         <div className="p-4 space-y-4">
           <div className="pt-4">
-            <h1 className="text-3xl font-bold text-gray-900">History</h1>
-            <p className="text-gray-500 mt-1">View past months</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">History</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">View past months</p>
           </div>
 
-          <div className="glass rounded-2xl p-8 shadow-lg shadow-black/5 border border-gray-100 text-center">
-            <Calendar className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-400">No history available</p>
-            <p className="text-sm text-gray-500 mt-2">
+          <div className="glass rounded-2xl p-8 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700 text-center">
+            <Calendar className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+            <p className="text-gray-400 dark:text-gray-500">No history available</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               Start adding expenses to see your monthly history
             </p>
           </div>
@@ -50,13 +46,13 @@ export function History() {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gray-50 pb-24"
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-24"
     >
       <div className="p-4 space-y-4">
         {/* Header */}
         <div className="pt-4">
-          <h1 className="text-3xl font-bold text-gray-900">History</h1>
-          <p className="text-gray-500 mt-1">View past months</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">History</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">View past months</p>
         </div>
 
         <div className="space-y-4">
@@ -69,51 +65,49 @@ export function History() {
             const totalRemaining = totalBudget - totalSpent;
 
             return (
-              <motion.div
+              <div
                 key={monthKey}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
                 onClick={() => handleMonthClick(monthKey)}
-                className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow"
+                className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700 cursor-pointer hover:shadow-xl transition-shadow"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div>
-                    <h3 className="font-semibold text-gray-900 text-lg">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-lg">
                       {formatMonthKey(monthKey)}
                     </h3>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
                       {monthData.transactions.length} {monthData.transactions.length === 1 ? 'expense' : 'expenses'}
                     </p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-gray-400" />
+                  <ChevronRight className="w-5 h-5 text-gray-400 dark:text-gray-500" />
                 </div>
 
                 <div className="space-y-2">
                   {monthData.income && monthData.income > 0 && (
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-600">Income</span>
-                      <span className="font-semibold text-gray-900">{formatZAR(monthData.income)}</span>
+                      <span className="text-gray-600 dark:text-gray-400">Income</span>
+                      <span className="font-semibold text-gray-900 dark:text-gray-100">{formatZAR(monthData.income)}</span>
                     </div>
                   )}
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Total Budget</span>
-                    <span className="font-semibold text-gray-900">{formatZAR(totalBudget)}</span>
+                    <span className="text-gray-600 dark:text-gray-400">Total Budget</span>
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">{formatZAR(totalBudget)}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-600">Total Spent</span>
-                    <span className="font-semibold text-gray-900">
+                    <span className="text-gray-600 dark:text-gray-400">Total Spent</span>
+                    <span className="font-semibold text-gray-900 dark:text-gray-100">
                       {formatZAR(totalSpent)}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-sm pt-2 border-t border-gray-200">
-                    <span className="text-gray-600">
+                  <div className="flex items-center justify-between text-sm pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <span className="text-gray-600 dark:text-gray-400">
                       {monthData.income && monthData.income > 0 ? 'Remaining from Income' : 'Remaining'}
                     </span>
                     <span
                       className={`font-bold ${
                         (monthData.income && monthData.income > 0 
                           ? monthData.income - totalSpent 
-                          : totalRemaining) >= 0 ? 'text-green-600' : 'text-red-600'
+                          : totalRemaining) >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                       }`}
                     >
                       {formatZAR(
@@ -124,7 +118,7 @@ export function History() {
                     </span>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             );
           })}
         </div>

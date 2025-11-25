@@ -6,19 +6,6 @@ interface SpendingBarChartProps {
   data: CategoryBudgetInfo[];
 }
 
-const categoryLabels: Record<string, string> = {
-  groceries: 'Groceries',
-  petrol: 'Petrol',
-  eatingOut: 'Eating Out',
-  entertainment: 'Entertainment',
-  random: 'Random/Other',
-  rent: 'Rent',
-  electricity: 'Electricity',
-  water: 'Water',
-  medicalAid: 'Medical Aid',
-  gym: 'Gym',
-  internet: 'Internet',
-};
 
 export function SpendingBarChart({ data }: SpendingBarChartProps) {
   // Filter out categories with no spending and sort by spent amount
@@ -26,7 +13,7 @@ export function SpendingBarChart({ data }: SpendingBarChartProps) {
     .filter((item) => item.spent > 0)
     .sort((a, b) => b.spent - a.spent)
     .map((item) => ({
-      name: categoryLabels[item.category] || item.category,
+      name: item.category,
       spent: item.spent,
       budget: item.budget,
       remaining: item.remaining,

@@ -29,11 +29,11 @@ export function ProgressBar({
     <div className={cn('space-y-1', className)}>
       {showLabel && (
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Progress</span>
-          <span className="text-gray-700 font-medium">{percentage.toFixed(0)}%</span>
+          <span className="text-gray-600 dark:text-gray-400">Progress</span>
+          <span className="text-gray-700 dark:text-gray-300 font-medium">{percentage.toFixed(0)}%</span>
         </div>
       )}
-      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${percentage}%` }}

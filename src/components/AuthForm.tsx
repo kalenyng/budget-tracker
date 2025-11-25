@@ -32,32 +32,32 @@ export function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 via-gray-50 to-primary/5 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/10 dark:from-primary/20 via-gray-50 dark:via-gray-900 to-primary/5 dark:to-primary/10 flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="glass rounded-3xl p-8 shadow-2xl border border-gray-100">
+        <div className="glass rounded-3xl p-8 shadow-2xl border border-gray-100 dark:border-gray-700">
           {/* Logo/Icon */}
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <div className="w-16 h-16 rounded-2xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
               <Wallet className="w-8 h-8 text-primary" />
             </div>
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 text-center mb-2">
             Budget Tracker
           </h1>
-          <p className="text-gray-500 text-center mb-8">
+          <p className="text-gray-500 dark:text-gray-400 text-center mb-8">
             {isSignUp ? 'Create your account' : 'Sign in to continue'}
           </p>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Email
               </label>
               <input
@@ -65,14 +65,14 @@ export function AuthForm() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="you@example.com"
                 autoComplete="email"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Password
               </label>
               <input
@@ -81,14 +81,14 @@ export function AuthForm() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent"
                 placeholder="••••••••"
                 autoComplete={isSignUp ? 'new-password' : 'current-password'}
               />
             </div>
 
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+              <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm">
                 {error}
               </div>
             )}

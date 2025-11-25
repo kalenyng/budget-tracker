@@ -31,20 +31,6 @@ const categoryIcons: Record<string, React.ReactNode> = {
   internet: <Wifi className="w-5 h-5" />,
 };
 
-const categoryLabels: Record<string, string> = {
-  groceries: 'Groceries',
-  petrol: 'Petrol',
-  eatingOut: 'Eating Out',
-  entertainment: 'Entertainment',
-  random: 'Random/Other',
-  rent: 'Rent',
-  electricity: 'Electricity',
-  water: 'Water',
-  medicalAid: 'Medical Aid',
-  gym: 'Gym',
-  internet: 'Internet',
-};
-
 interface CategoryCardProps {
   info: CategoryBudgetInfo;
   onClick?: () => void;
@@ -53,38 +39,38 @@ interface CategoryCardProps {
 export function CategoryCard({ info, onClick }: CategoryCardProps) {
   const statusColor = getBudgetStatusColor(info.percentage);
   const icon = categoryIcons[info.category] || <MoreHorizontal className="w-5 h-5" />;
-  const label = categoryLabels[info.category] || info.category;
+  const label = info.category;
 
   const cardContent = (
-    <div className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100">
+    <div className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700">
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
-          <div className="p-2 bg-primary/10 rounded-xl text-primary">
+          <div className="p-2 bg-primary/10 dark:bg-primary/20 rounded-xl text-primary">
             {icon}
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900">{label}</h3>
-            <p className="text-xs text-gray-500">
+            <h3 className="font-semibold text-gray-900 dark:text-gray-100">{label}</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               {info.percentage.toFixed(0)}% used
             </p>
           </div>
         </div>
         <div className="text-right">
-          <p className="text-sm font-semibold text-gray-900">
+          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
             {formatZAR(info.remaining)}
           </p>
-          <p className="text-xs text-gray-500">remaining</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">remaining</p>
         </div>
       </div>
 
       <div className="space-y-2">
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Budget</span>
-          <span className="font-medium text-gray-900">{formatZAR(info.budget)}</span>
+          <span className="text-gray-600 dark:text-gray-400">Budget</span>
+          <span className="font-medium text-gray-900 dark:text-gray-100">{formatZAR(info.budget)}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Spent</span>
-          <span className="font-medium text-gray-900">{formatZAR(info.spent)}</span>
+          <span className="text-gray-600 dark:text-gray-400">Spent</span>
+          <span className="font-medium text-gray-900 dark:text-gray-100">{formatZAR(info.spent)}</span>
         </div>
         <ProgressBar
           value={info.spent}

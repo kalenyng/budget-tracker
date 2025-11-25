@@ -39,9 +39,9 @@ export function IncomeEditor({ income, onSave }: IncomeEditorProps) {
 
   if (isEditing) {
     return (
-      <div className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100">
+      <div className="glass rounded-2xl p-4 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700">
         <div className="space-y-3">
-          <label className="block text-sm font-medium text-gray-700">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
             Monthly Income (ZAR)
           </label>
           <input
@@ -50,18 +50,18 @@ export function IncomeEditor({ income, onSave }: IncomeEditorProps) {
             min="0"
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent text-lg font-semibold"
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:border-transparent text-lg font-semibold"
             autoFocus
           />
           {error && (
-            <div className="p-2 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+            <div className="p-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-600 dark:text-red-400 text-sm">
               {error}
             </div>
           )}
           <div className="flex gap-2">
             <button
               onClick={handleCancel}
-              className="flex-1 py-2 px-4 border border-gray-300 rounded-xl font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+              className="flex-1 py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-xl font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               Cancel
             </button>
@@ -80,16 +80,16 @@ export function IncomeEditor({ income, onSave }: IncomeEditorProps) {
   return (
     <div
       onClick={() => setIsEditing(true)}
-      className="glass rounded-2xl p-6 shadow-lg shadow-black/5 border border-gray-100 cursor-pointer hover:shadow-xl transition-shadow"
+      className="glass rounded-2xl p-6 shadow-lg shadow-black/5 border border-gray-100 dark:border-gray-700 cursor-pointer hover:shadow-xl transition-shadow"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center">
             <Wallet className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <p className="text-sm text-gray-500">Monthly Income</p>
-            <p className="text-2xl font-bold text-gray-900">{formatZAR(income)}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Monthly Income</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{formatZAR(income)}</p>
           </div>
         </div>
         <button className="text-primary text-sm font-medium">Edit</button>
