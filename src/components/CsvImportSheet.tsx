@@ -166,12 +166,6 @@ export function CsvImportSheet({ isOpen, onClose, onImport }: CsvImportSheetProp
     setTransactions(updated);
   };
 
-  const handleNewCategoryChange = (index: number, categoryName: string) => {
-    const updated = [...transactions];
-    updated[index].category = categoryName.trim();
-    setTransactions(updated);
-  };
-
   const handleToggleSelect = (index: number) => {
     const updated = [...transactions];
     updated[index].selected = !updated[index].selected;
